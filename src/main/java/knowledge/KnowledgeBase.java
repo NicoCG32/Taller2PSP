@@ -5,7 +5,12 @@ import java.io.IOException;
 import java.util.Properties;
 import model.PresentationMode;
 
+/**
+ * Base de conocimiento compartida por los componentes del ciclo MAPE-K.
+ */
 public class KnowledgeBase {
+    private static KnowledgeBase instance;
+
     // Estado actual del sistema
     private int requestCount = 0;
     private PresentationMode currentMode = PresentationMode.MULTIMEDIA;
@@ -14,8 +19,21 @@ public class KnowledgeBase {
     private int restrictedThreshold;
     private int textThreshold;
 
-    public KnowledgeBase() {
+    /**
+     * Crea la base de conocimiento y carga sus parametros de configuracion.
+     */
+    private KnowledgeBase() {
         cargarConfiguracion();
+    }
+
+    /**
+     * Entrega la unica instancia compartida de la base de conocimiento.
+     */
+    public static synchronized KnowledgeBase getInstance() {
+        if (instance == null) {
+            instance = new KnowledgeBase();
+        }
+        return instance;
     }
 
     private void cargarConfiguracion() {
@@ -36,20 +54,20 @@ public class KnowledgeBase {
     }
 
     // Métodos para alterar el estado
-    public void addRequest() {
+    public synchronized void addRequest() {
         this.requestCount++;
     }
 
-    public void reset() {
+    public synchronized void reset() {
         this.requestCount = 0;
         this.currentMode = PresentationMode.MULTIMEDIA;
     }
 
     // Getters y Setters
-    public int getRequestCount() { return requestCount; }
+    public synchronized int getRequestCount() { return requestCount; }
 
-    public PresentationMode getCurrentMode() { return currentMode; }
-    public void setCurrentMode(PresentationMode mode) { this.currentMode = mode; }
+    public synchronized PresentationMode getCurrentMode() { return currentMode; }
+    public synchronized void setCurrentMode(PresentationMode mode) { this.currentMode = mode; }
 
     public int getRestrictedThreshold() { return restrictedThreshold; }
     public int getTextThreshold() { return textThreshold; }

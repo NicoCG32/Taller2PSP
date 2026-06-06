@@ -8,7 +8,7 @@ import web.WebServer;
 public class Main {
     public static void main(String[] args) {
         // 1. Inicializar el componente de Conocimiento (Knowledge)
-        KnowledgeBase knowledge = new KnowledgeBase();
+        KnowledgeBase knowledge = KnowledgeBase.getInstance();
 
         // 2. Inicializar los componentes del ciclo MAPE compartiendo la misma base de conocimiento
         Monitor monitor = new Monitor(knowledge);

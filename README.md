@@ -16,37 +16,79 @@ Implementación de un sistema MAPE‑K (Monitor, Analyzer, Planner, Executor y K
 
 Este proyecto organiza los componentes en capas: módulos de monitorización, análisis, planificación y ejecución, junto con una base de conocimiento y un servicio web para exponer y gestionar contenidos de forma adaptable.
 
+## Compilación y ejecución
+
+Para compilar el proyecto:
+
+```bash
+mvn clean compile
+```
+
+Para ejecutar la aplicación:
+
+```bash
+mvn exec:java
+```
+
+Una vez iniciada, la interfaz puede visualizarse en:
+
+```text
+http://localhost:7000/
+```
+
+La ruta recomendada para acceder directamente al contenido es:
+
+```text
+http://localhost:7000/content
+```
+
 ---
 
 ## Estructura de carpetas
 
 ```
 Taller2PSP/
+├─ config.properties
+├─ docs/
+│  ├─ diagrams/
+│  └─ doxygen/
 ├─ pom.xml
 ├─ README.md
 ├─ ref/
 │  └─ Taller.pdf
 └─ src/
 	└─ main/
-		└─ java/
-			├─ app/
-			│  └─ Main.java
-			├─ knowledge/
-			│  ├─ AdaptationConfig.java
-			│  ├─ KnowledgeBase.java
-			│  └─ SystemState.java
-			├─ mape/
-			│  ├─ Analyzer.java
-			│  ├─ Executor.java
-			│  ├─ Monitor.java
-			│  └─ Planner.java
-			├─ model/
-			│  └─ Content.java
-			├─ service/
-			│  └─ ContentService.java
-			└─ web/
-				├─ ContentController.java
-				└─ WebServer.java
+		├─ java/
+		│  ├─ app/
+		│  │  └─ Main.java
+		│  ├─ knowledge/
+		│  │  ├─ AdaptationConfig.java
+		│  │  ├─ KnowledgeBase.java
+		│  │  └─ SystemState.java
+		│  ├─ mape/
+		│  │  ├─ Analyzer.java
+		│  │  ├─ Executor.java
+		│  │  ├─ MapeCycleFacade.java
+		│  │  ├─ Monitor.java
+		│  │  └─ Planner.java
+		│  ├─ model/
+		│  │  ├─ Content.java
+		│  │  ├─ DemandLevel.java
+		│  │  └─ PresentationMode.java
+		│  ├─ service/
+		│  │  ├─ ContentService.java
+		│  │  └─ strategy/
+		│  │     ├─ ContentPresentationStrategy.java
+		│  │     ├─ MultimediaPresentationStrategy.java
+		│  │     ├─ RestrictedPresentationStrategy.java
+		│  │     └─ TextPresentationStrategy.java
+		│  └─ web/
+		│     ├─ ContentController.java
+		│     └─ WebServer.java
+		└─ resources/
+			├─ images/
+			└─ videos/
+				
 ```
 
 _Proyecto académico — enfoque en patrones de software y arquitectura de sistemas autoadaptativos._

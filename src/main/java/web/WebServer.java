@@ -1,5 +1,6 @@
 package web;
 import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
 import knowledge.KnowledgeBase;
 import mape.MapeCycleFacade;
 import service.ContentService;
@@ -17,7 +18,7 @@ public class WebServer {
     }
 
     public void start(int port) {
-        Javalin app = Javalin.create();
+        Javalin app = Javalin.create(config -> config.staticFiles.add("/public", Location.CLASSPATH));
         ContentController contentController = new ContentController(knowledge, mapeCycleFacade, contentService);
 
         contentController.registerRoutes(app);

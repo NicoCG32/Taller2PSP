@@ -4,4 +4,8 @@
 # Java compilados
 *.class
 
+# Target de IntelliJ IDEA
 /target
+
+# Referencias
+/ref

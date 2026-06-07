@@ -8,6 +8,9 @@ import mape.MapeCycleFacade;
 import model.PresentationMode;
 import service.ContentService;
 
+/**
+ * Controlador web encargado de registrar y atender las rutas HTTP del sistema adaptativo.
+ */
 public class ContentController {
 
     private static final String HTML_UTF8 = "text/html; charset=UTF-8";
@@ -37,7 +40,7 @@ public class ContentController {
     }
 
     /**
-     * Muestra una pagina inicial con accesos a los endpoints principales.
+     * Muestra una pagina inicial con recursos introductorios y accesos principales.
      */
     private void getHome(Context ctx) {
         sendHtml(ctx, """
@@ -56,18 +59,25 @@ public class ContentController {
                         }
 
                         main {
-                            max-width: 760px;
+                            max-width: 1080px;
                             margin: 0 auto;
-                            padding: 48px 20px;
+                            padding: 40px 20px;
                         }
 
                         h1 {
                             margin: 0 0 12px;
                             font-size: 32px;
+                            line-height: 1.15;
                         }
 
                         p {
                             line-height: 1.6;
+                        }
+
+                            .lead {
+                            max-width: 680px;
+                            color: #52616b;
+                            font-size: 17px;
                         }
 
                         nav {
@@ -96,7 +106,7 @@ public class ContentController {
                 <body>
                     <main>
                         <h1>Sistema web autoadaptativo MAPE-K</h1>
-                        <p>Selecciona un endpoint para probar la adaptación del contenido y consultar el estado actual del sistema.</p>
+                        <p class="lead">Selecciona un endpoint para probar la adaptación del contenido y consultar el estado actual del sistema.</p>
                         <nav>
                             <a href="/content">Ver contenido adaptativo</a>
                             <a href="/status">Consultar estado del sistema</a>

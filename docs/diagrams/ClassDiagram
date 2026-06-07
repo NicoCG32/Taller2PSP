@@ -1,1 +1,164 @@
-Con VisualParadigm o PlantUML
+BASE HECHA CON IA
+
+@startuml
+title Taller2PSP - Class Diagram
+
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package app {
+	class Main
+}
+
+package knowledge {
+	class KnowledgeBase {
+		-instance : KnowledgeBase
+		-requestCount : int
+		-currentMode : PresentationMode
+		-restrictedThreshold : int
+		-textThreshold : int
+		+getInstance() : KnowledgeBase
+		+addRequest() : void
+		+reset() : void
+		+getRequestCount() : int
+		+getCurrentMode() : PresentationMode
+		+setCurrentMode(mode : PresentationMode) : void
+		+getRestrictedThreshold() : int
+		+getTextThreshold() : int
+	}
+
+	class AdaptationConfig
+	class SystemState
+}
+
+package mape {
+	class MapeCycleFacade {
+		-knowledge : KnowledgeBase
+		-monitor : Monitor
+		-analyzer : Analyzer
+		-planner : Planner
+		-executor : Executor
+		+runCycle() : PresentationMode
+	}
+
+	class Monitor {
+		-knowledge : KnowledgeBase
+		+registerRequest() : void
+	}
+
+	class Analyzer {
+		-knowledge : KnowledgeBase
+		+analyzeDemand() : DemandLevel
+	}
+
+	class Planner {
+		+planAdaptation(demand : DemandLevel) : PresentationMode
+	}
+
+	class Executor {
+		-knowledge : KnowledgeBase
+		+executeAdaptation(plannedMode : PresentationMode) : void
+	}
+}
+
+package web {
+	class WebServer {
+		-knowledge : KnowledgeBase
+		-mapeCycleFacade : MapeCycleFacade
+		-contentService : ContentService
+		+start(port : int) : void
+	}
+
+	class ContentController {
+		-knowledge : KnowledgeBase
+		-mapeCycleFacade : MapeCycleFacade
+		-contentService : ContentService
+		+registerRoutes(app : Javalin) : void
+	}
+}
+
+package service {
+	class ContentService {
+		-multimediaStrategy : ContentPresentationStrategy
+		-restrictedStrategy : ContentPresentationStrategy
+		-textStrategy : ContentPresentationStrategy
+		+renderContent(mode : PresentationMode) : String
+	}
+
+	interface ContentPresentationStrategy {
+		+render(content : Content) : String
+	}
+
+	class MultimediaPresentationStrategy
+	class RestrictedPresentationStrategy
+	class TextPresentationStrategy
+}
+
+package model {
+	class Content {
+		-title : String
+		-description : String
+		-summary : String
+		-imageDescription : String
+		-imagePath : String
+		-videoDescription : String
+		-videoPath : String
+		-resourceLink : String
+	}
+
+	enum DemandLevel {
+		LOW
+		MEDIUM
+		HIGH
+	}
+
+	enum PresentationMode {
+		MULTIMEDIA
+		RESTRICTED
+		TEXT
+	}
+}
+
+Main --> KnowledgeBase
+Main --> Monitor
+Main --> Analyzer
+Main --> Planner
+Main --> Executor
+Main --> MapeCycleFacade
+Main --> ContentService
+Main --> WebServer
+
+WebServer --> ContentController
+WebServer --> KnowledgeBase
+WebServer --> MapeCycleFacade
+WebServer --> ContentService
+
+ContentController --> KnowledgeBase
+ContentController --> MapeCycleFacade
+ContentController --> ContentService
+
+MapeCycleFacade --> KnowledgeBase
+MapeCycleFacade --> Monitor
+MapeCycleFacade --> Analyzer
+MapeCycleFacade --> Planner
+MapeCycleFacade --> Executor
+
+Monitor --> KnowledgeBase
+Analyzer --> KnowledgeBase
+Executor --> KnowledgeBase
+
+Planner --> DemandLevel
+Planner --> PresentationMode
+Analyzer --> DemandLevel
+Executor --> PresentationMode
+
+ContentService --> Content
+ContentService --> PresentationMode
+ContentService --> ContentPresentationStrategy
+ContentPresentationStrategy <|.. MultimediaPresentationStrategy
+ContentPresentationStrategy <|.. RestrictedPresentationStrategy
+ContentPresentationStrategy <|.. TextPresentationStrategy
+
+Content --> PresentationMode
+
+@enduml

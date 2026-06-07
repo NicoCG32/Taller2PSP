@@ -44,6 +44,36 @@ http://localhost:7000/content
 
 ---
 
+## Documentación técnica con Doxygen
+
+El proyecto incluye una configuración de Doxygen en:
+
+```text
+docs/doxygen/Doxyfile
+```
+
+Para generar la documentación técnica del código:
+
+```bash
+doxygen docs/doxygen/Doxyfile
+```
+
+La documentación HTML se genera en:
+
+```text
+docs/doxygen/generated/html/index.html
+```
+
+En PowerShell, puede abrirse con:
+
+```powershell
+Start-Process .\docs\doxygen\generated\html\index.html
+```
+
+Es necesario tener Doxygen instalado y disponible en el `PATH` del sistema.
+
+---
+
 ## Estructura de carpetas
 
 ```
@@ -52,6 +82,7 @@ Taller2PSP/
 ├─ docs/
 │  ├─ diagrams/
 │  └─ doxygen/
+│     └─ Doxyfile
 ├─ pom.xml
 ├─ README.md
 ├─ ref/

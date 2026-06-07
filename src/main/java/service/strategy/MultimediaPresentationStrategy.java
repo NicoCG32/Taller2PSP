@@ -1,6 +1,7 @@
 package service.strategy;
 
 import model.Content;
+import model.ContentResource;
 
 /**
  * Estrategia que muestra la version completa del contenido educativo.
@@ -116,6 +117,60 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
                             font-weight: 700;
                         }
 
+                        .visual-block img {
+                            max-width: 100%%;
+                            height: auto;
+                            border-radius: 6px;
+                        }
+
+                        .video-frame video {
+                            display: block;
+                            width: 100%%;
+                            aspect-ratio: 16 / 9;
+                            border: 1px solid #cfd8dc;
+                            border-radius: 8px;
+                            background: #111827;
+                        }
+
+                        .media-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                            gap: 12px;
+                            margin-top: 16px;
+                        }
+
+                        .media-card {
+                            border: 1px solid #d8dee6;
+                            border-radius: 8px;
+                            background: #ffffff;
+                            padding: 10px;
+                        }
+
+                        .media-card img,
+                        .media-card video {
+                            display: block;
+                            width: 100%%;
+                            border-radius: 6px;
+                            background: #f7faf9;
+                        }
+
+                        .media-card video {
+                            aspect-ratio: 16 / 9;
+                            background: #111827;
+                        }
+
+                        .media-card strong {
+                            display: block;
+                            margin: 8px 0 4px;
+                            font-size: 14px;
+                        }
+
+                        .media-card span {
+                            color: #52616b;
+                            font-size: 13px;
+                            line-height: 1.45;
+                        }
+
                         .resource-list {
                             display: grid;
                             gap: 12px;
@@ -168,11 +223,18 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
 
                             <aside class="panel">
                                 <h2 class="panel-title">Material multimedia</h2>
-                                    <div class="visual-block"><img src="%s" alt="%s" style="max-width:100%%;height:auto;border-radius:6px;"></div>
+                                <div class="visual-block">
+                                    <img src="%s" alt="%s">
+                                </div>
                                 <div class="resource-list">
                                     <div class="resource">
-                                        <strong>Video activo</strong>
-                                        <span>%s</span>
+                                        <strong>%s</strong>
+                                        <div class="video-frame">
+                                            <video controls preload="metadata" poster="%s">
+                                                <source src="%s" type="video/mp4">
+                                                Tu navegador no puede reproducir este video.
+                                            </video>
+                                        </div>
                                     </div>
                                     <div class="resource">
                                         <strong>Recurso complementario</strong>
@@ -180,6 +242,20 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
                                     </div>
                                 </div>
                             </aside>
+                        </section>
+
+                        <section class="panel" style="margin-top:18px;">
+                            <h2 class="panel-title">Imágenes complementarias</h2>
+                            <div class="media-grid">
+                                %s
+                            </div>
+                        </section>
+
+                        <section class="panel" style="margin-top:18px;">
+                            <h2 class="panel-title">Videos complementarios</h2>
+                            <div class="media-grid">
+                                %s
+                            </div>
                         </section>
                     </main>
                 </body>
@@ -190,8 +266,49 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
                 content.getDescription(),
                 content.getImagePath(),
                 content.getImageDescription(),
-                content.getVideoDescription(),
-                content.getResourceLink()
+                content.getMainVideo().getTitle(),
+                content.getImagePath(),
+                content.getVideoPath(),
+                content.getResourceLink(),
+                renderImageCards(content),
+                renderVideoCards(content)
         );
+    }
+
+    /**
+     * Renderiza todas las imagenes complementarias en modo multimedia.
+     */
+    private String renderImageCards(Content content) {
+        StringBuilder html = new StringBuilder();
+        for (ContentResource image : content.getImages()) {
+            html.append("""
+                    <article class="media-card">
+                        <img src="%s" alt="%s">
+                        <strong>%s</strong>
+                        <span>%s</span>
+                    </article>
+                    """.formatted(image.getPath(), image.getDescription(), image.getTitle(), image.getDescription()));
+        }
+        return html.toString();
+    }
+
+    /**
+     * Renderiza todos los videos complementarios en modo multimedia.
+     */
+    private String renderVideoCards(Content content) {
+        StringBuilder html = new StringBuilder();
+        for (ContentResource video : content.getVideos()) {
+            html.append("""
+                    <article class="media-card">
+                        <video controls preload="metadata" poster="%s">
+                            <source src="%s" type="video/mp4">
+                            Tu navegador no puede reproducir este video.
+                        </video>
+                        <strong>%s</strong>
+                        <span>%s</span>
+                    </article>
+                    """.formatted(content.getImagePath(), video.getPath(), video.getTitle(), video.getDescription()));
+        }
+        return html.toString();
     }
 }

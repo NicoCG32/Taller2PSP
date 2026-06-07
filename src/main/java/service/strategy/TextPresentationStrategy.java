@@ -154,8 +154,10 @@ public class TextPresentationStrategy implements ContentPresentationStrategy {
                             </div>
 
                             <ul class="disabled-list" aria-label="Recursos desactivados">
-                                <li>Imagen no cargada: %s</li>
-                                <li>Video no cargado: %s</li>
+                                <li>Imagen principal no cargada: %s</li>
+                                <li>Video principal no cargado: %s</li>
+                                <li>Imágenes complementarias no cargadas: %d</li>
+                                <li>Videos complementarios no cargados: %d</li>
                                 <li>Recurso complementario no cargado: %s</li>
                             </ul>
                         </section>
@@ -168,6 +170,8 @@ public class TextPresentationStrategy implements ContentPresentationStrategy {
                 content.getSummary(),
                 content.getImageDescription(),
                 content.getVideoDescription(),
+                content.getImages().size(),
+                content.getVideos().size(),
                 content.getResourceLink()
         );
     }

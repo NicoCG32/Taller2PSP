@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 /**
  * Representa el contenido educativo base que sera adaptado segun la demanda.
  */
@@ -8,23 +10,23 @@ public class Content {
     private final String title;
     private final String description;
     private final String summary;
-    private final String imageDescription;
-    private final String imagePath;
-    private final String videoDescription;
-    private final String videoPath;
+    private final ContentResource mainImage;
+    private final ContentResource mainVideo;
+    private final List<ContentResource> images;
+    private final List<ContentResource> videos;
     private final String resourceLink;
 
     /**
      * Crea un contenido educativo con sus variantes textuales y multimedia.
      */
-    public Content(String title, String description, String summary, String imageDescription, String imagePath, String videoDescription, String videoPath, String resourceLink) {
+    public Content(String title, String description, String summary, ContentResource mainImage, ContentResource mainVideo, List<ContentResource> images, List<ContentResource> videos, String resourceLink) {
         this.title = title;
         this.description = description;
         this.summary = summary;
-        this.imageDescription = imageDescription;
-        this.imagePath = imagePath;
-        this.videoDescription = videoDescription;
-        this.videoPath = videoPath;
+        this.mainImage = mainImage;
+        this.mainVideo = mainVideo;
+        this.images = List.copyOf(images);
+        this.videos = List.copyOf(videos);
         this.resourceLink = resourceLink;
     }
     
@@ -61,7 +63,7 @@ public class Content {
      * @return texto alternativo de la imagen
      */
     public String getImageDescription() {
-        return imageDescription;
+        return mainImage.getDescription();
     }
 
     /**
@@ -70,7 +72,7 @@ public class Content {
      * @return ruta de la imagen
      */
     public String getImagePath() {
-        return imagePath;
+        return mainImage.getPath();
     }
 
     /**
@@ -79,7 +81,7 @@ public class Content {
      * @return descripción del video
      */
     public String getVideoDescription() {
-        return videoDescription;
+        return mainVideo.getDescription();
     }
 
     /**
@@ -88,7 +90,43 @@ public class Content {
      * @return ruta del video
      */
     public String getVideoPath() {
-        return videoPath;
+        return mainVideo.getPath();
+    }
+
+    /**
+     * Retorna la imagen principal del contenido.
+     *
+     * @return imagen principal
+     */
+    public ContentResource getMainImage() {
+        return mainImage;
+    }
+
+    /**
+     * Retorna el video principal del contenido.
+     *
+     * @return video principal
+     */
+    public ContentResource getMainVideo() {
+        return mainVideo;
+    }
+
+    /**
+     * Retorna las imagenes complementarias del contenido.
+     *
+     * @return imagenes complementarias
+     */
+    public List<ContentResource> getImages() {
+        return images;
+    }
+
+    /**
+     * Retorna los videos complementarios del contenido.
+     *
+     * @return videos complementarios
+     */
+    public List<ContentResource> getVideos() {
+        return videos;
     }
 
     /**

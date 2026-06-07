@@ -1,6 +1,7 @@
 package service.strategy;
 
 import model.Content;
+import model.ContentResource;
 
 /**
  * Estrategia que conserva texto e imagen, pero desactiva recursos multimedia pesados.
@@ -117,6 +118,32 @@ public class RestrictedPresentationStrategy implements ContentPresentationStrate
                             border-radius: 6px;
                         }
 
+                        .image-list {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                            gap: 10px;
+                            margin-top: 14px;
+                        }
+
+                        .image-list article {
+                            border: 1px solid #d8dee6;
+                            border-radius: 8px;
+                            background: #ffffff;
+                            padding: 8px;
+                        }
+
+                        .image-list img {
+                            display: block;
+                            width: 100%%;
+                            border-radius: 6px;
+                        }
+
+                        .image-list strong {
+                            display: block;
+                            margin-top: 8px;
+                            font-size: 13px;
+                        }
+
                         .disabled-resource {
                             margin-top: 16px;
                             border-left: 4px solid #b58a2a;
@@ -172,9 +199,12 @@ public class RestrictedPresentationStrategy implements ContentPresentationStrate
                                 <div class="image-frame">
                                     <img src="%s" alt="%s">
                                 </div>
+                                <div class="image-list">
+                                    %s
+                                </div>
                                 <div class="disabled-resource">
                                     <strong>Video desactivado temporalmente</strong>
-                                    <span>%s no se carga en este modo para reducir consumo de recursos. Ruta configurada: <code>%s</code>.</span>
+                                    <span>%s y %d videos complementarios no se cargan en este modo para reducir consumo de recursos.</span>
                                 </div>
                             </aside>
                         </section>
@@ -187,8 +217,25 @@ public class RestrictedPresentationStrategy implements ContentPresentationStrate
                 content.getDescription(),
                 content.getImagePath(),
                 content.getImageDescription(),
+                renderImageCards(content),
                 content.getVideoDescription(),
-                content.getVideoPath()
+                content.getVideos().size()
         );
+    }
+
+    /**
+     * Renderiza imagenes complementarias, conservando desactivados los videos.
+     */
+    private String renderImageCards(Content content) {
+        StringBuilder html = new StringBuilder();
+        for (ContentResource image : content.getImages()) {
+            html.append("""
+                    <article>
+                        <img src="%s" alt="%s">
+                        <strong>%s</strong>
+                    </article>
+                    """.formatted(image.getPath(), image.getDescription(), image.getTitle()));
+        }
+        return html.toString();
     }
 }

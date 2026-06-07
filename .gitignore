@@ -12,6 +12,3 @@
 
 # Visual Studio Code
 .vscode/
-
-# Drawio para diagramas
-*.drawio

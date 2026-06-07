@@ -11,6 +11,7 @@ import service.strategy.TextPresentationStrategy;
  * Servicio que obtiene el contenido educativo y lo renderiza segun el modo activo.
  */
 public class ContentService {
+    
     private final ContentPresentationStrategy multimediaStrategy;
     private final ContentPresentationStrategy restrictedStrategy;
     private final ContentPresentationStrategy textStrategy;
@@ -41,9 +42,9 @@ public class ContentService {
                 "Introducción a Patrones de Software.",
                 "Introducción a Patrones de Software.",
                 "Imagen conceptual del ciclo MAPE-K",
-                "/assets/images/mape-k-cycle.svg",
+                "/images/mape-k.svg",
                 "Video tutorial de la arquitectura",
-                "/assets/videos/mape-k-demo.mp4",
+                "/videos/mape-k-demo.mp4",
                 "Material complementario sobre sistemas autoadaptativos"
         );
     }

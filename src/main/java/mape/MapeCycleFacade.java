@@ -8,6 +8,7 @@ import model.PresentationMode;
  * Fachada que encapsula una iteracion completa del ciclo MAPE-K.
  */
 public class MapeCycleFacade {
+    
     private final KnowledgeBase knowledge;
     private final Monitor monitor;
     private final Analyzer analyzer;

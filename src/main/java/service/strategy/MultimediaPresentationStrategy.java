@@ -168,7 +168,7 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
 
                             <aside class="panel">
                                 <h2 class="panel-title">Material multimedia</h2>
-                                <div class="visual-block">%s</div>
+                                    <div class="visual-block"><img src="%s" alt="%s" style="max-width:100%%;height:auto;border-radius:6px;"></div>
                                 <div class="resource-list">
                                     <div class="resource">
                                         <strong>Video activo</strong>
@@ -188,6 +188,7 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
                 content.getTitle(),
                 content.getTitle(),
                 content.getDescription(),
+                content.getImagePath(),
                 content.getImageDescription(),
                 content.getVideoDescription(),
                 content.getResourceLink()

@@ -9,6 +9,7 @@ import model.PresentationMode;
 import service.ContentService;
 
 public class ContentController {
+
     private static final String HTML_UTF8 = "text/html; charset=UTF-8";
     private static final String TEXT_UTF8 = "text/plain; charset=UTF-8";
 

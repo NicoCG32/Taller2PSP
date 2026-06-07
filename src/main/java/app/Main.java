@@ -5,7 +5,19 @@ import mape.*;
 import service.ContentService;
 import web.WebServer;
 
+/**
+ * Punto de arranque de la aplicación que instancia los componentes
+ * del ciclo MAPE-K y el servidor web.
+ */
 public class Main {
+
+    /**
+     * Punto de entrada de la aplicación.
+     * Inicializa la base de conocimiento, los componentes MAPE-K, el servicio de contenido
+     * y arranca el servidor web en el puerto indicado.
+     *
+     * @param args parámetros de línea de comandos (no usados)
+     */
     public static void main(String[] args) {
         // 1. Inicializar el componente de Conocimiento (Knowledge)
         KnowledgeBase knowledge = KnowledgeBase.getInstance();

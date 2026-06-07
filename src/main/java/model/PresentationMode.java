@@ -1,7 +1,14 @@
 package model;
 
+/**
+ * Modos de presentación que el sistema puede activar como resultado
+ * del proceso de adaptación.
+ */
 public enum PresentationMode {
-    MULTIMEDIA, // Muestra todo (texto, imágenes, video) [cite: 11]
-    RESTRICTED, // Desactiva videos y multimedia [cite: 12]
-    TEXT        // Desactiva imágenes y videos, solo texto resumido [cite: 13]
+    /** Muestra todo: texto, imágenes y video. */
+    MULTIMEDIA,
+    /** Conserva texto e imagen, desactiva videos pesados. */
+    RESTRICTED,
+    /** Modo mínimo: sólo texto resumido. */
+    TEXT
 }

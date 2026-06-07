@@ -3,8 +3,20 @@ package mape;
 import model.DemandLevel;
 import model.PresentationMode;
 
-//DECIDE EL PLAN DE ACCION A TOMAR SEGUN EL NIVEL DE DEMANDA DETECTADO
+/**
+ * Planner del ciclo MAPE-K.
+ *
+ * <p>Convierte un {@link model.DemandLevel} en un {@link model.PresentationMode}
+ * que represente el plan de adaptación a aplicar.</p>
+ */
 public class Planner {
+    
+    /**
+     * Decide el modo de presentación a aplicar según el nivel de demanda.
+     *
+     * @param demand nivel de demanda detectado por el Analyzer
+     * @return modo de presentación seleccionado
+     */
     public PresentationMode planAdaptation(DemandLevel demand) {
         switch (demand) {
             case HIGH:

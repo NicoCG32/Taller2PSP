@@ -1,23 +1,22 @@
-BASE HECHA CON IA
-
 @startuml
-title Taller2PSP - Class Diagram
+title Taller2PSP - UML Class Diagram (Actualizado)
 
 skinparam packageStyle rectangle
 skinparam classAttributeIconSize 0
 
 package app {
-	class Main
+	class Main {
+		+main(args : String[]) : void
+	}
 }
 
 package knowledge {
-	class KnowledgeBase {
-		-instance : KnowledgeBase
-		-requestCount : int
-		-currentMode : PresentationMode
-		-restrictedThreshold : int
-		-textThreshold : int
-		+getInstance() : KnowledgeBase
+	class KnowledgeBase <<singleton>> {
+		-{static} instance : KnowledgeBase
+		-state : SystemState
+		-config : AdaptationConfig
+		-{static} loadConfiguration() : AdaptationConfig
+		+{static} getInstance() : KnowledgeBase
 		+addRequest() : void
 		+reset() : void
 		+getRequestCount() : int
@@ -27,8 +26,22 @@ package knowledge {
 		+getTextThreshold() : int
 	}
 
-	class AdaptationConfig
-	class SystemState
+	class SystemState {
+		-requestCount : int
+		-currentMode : PresentationMode
+		+incrementRequestCount() : void
+		+reset() : void
+		+getRequestCount() : int
+		+getCurrentMode() : PresentationMode
+		+setCurrentMode(currentMode : PresentationMode) : void
+	}
+
+	class AdaptationConfig {
+		-restrictedThreshold : int
+		-textThreshold : int
+		+getRestrictedThreshold() : int
+		+getTextThreshold() : int
+	}
 }
 
 package mape {
@@ -62,6 +75,9 @@ package mape {
 }
 
 package web {
+	class Javalin <<external>>
+	class Context <<external>>
+
 	class WebServer {
 		-knowledge : KnowledgeBase
 		-mapeCycleFacade : MapeCycleFacade
@@ -70,10 +86,17 @@ package web {
 	}
 
 	class ContentController {
+		-{static} HTML_UTF8 : String
+		-{static} TEXT_UTF8 : String
 		-knowledge : KnowledgeBase
 		-mapeCycleFacade : MapeCycleFacade
 		-contentService : ContentService
 		+registerRoutes(app : Javalin) : void
+		-getHome(ctx : Context) : void
+		-getContent(ctx : Context) : void
+		-getStatus(ctx : Context) : void
+		-resetSimulation(ctx : Context) : void
+		-sendHtml(ctx : Context, html : String) : void
 	}
 }
 
@@ -83,15 +106,28 @@ package service {
 		-restrictedStrategy : ContentPresentationStrategy
 		-textStrategy : ContentPresentationStrategy
 		+renderContent(mode : PresentationMode) : String
+		-getEducationalContent() : Content
+		-selectStrategy(mode : PresentationMode) : ContentPresentationStrategy
 	}
 
 	interface ContentPresentationStrategy {
 		+render(content : Content) : String
 	}
 
-	class MultimediaPresentationStrategy
-	class RestrictedPresentationStrategy
-	class TextPresentationStrategy
+	class MultimediaPresentationStrategy {
+		+render(content : Content) : String
+		-renderImageCards(content : Content) : String
+		-renderVideoCards(content : Content) : String
+	}
+
+	class RestrictedPresentationStrategy {
+		+render(content : Content) : String
+		-renderImageCards(content : Content) : String
+	}
+
+	class TextPresentationStrategy {
+		+render(content : Content) : String
+	}
 }
 
 package model {
@@ -99,11 +135,32 @@ package model {
 		-title : String
 		-description : String
 		-summary : String
-		-imageDescription : String
-		-imagePath : String
-		-videoDescription : String
-		-videoPath : String
+		-mainImage : ContentResource
+		-mainVideo : ContentResource
+		-images : List<ContentResource>
+		-videos : List<ContentResource>
 		-resourceLink : String
+		+getTitle() : String
+		+getDescription() : String
+		+getSummary() : String
+		+getImageDescription() : String
+		+getImagePath() : String
+		+getVideoDescription() : String
+		+getVideoPath() : String
+		+getMainImage() : ContentResource
+		+getMainVideo() : ContentResource
+		+getImages() : List<ContentResource>
+		+getVideos() : List<ContentResource>
+		+getResourceLink() : String
+	}
+
+	class ContentResource {
+		-title : String
+		-description : String
+		-path : String
+		+getTitle() : String
+		+getDescription() : String
+		+getPath() : String
 	}
 
 	enum DemandLevel {
@@ -119,7 +176,7 @@ package model {
 	}
 }
 
-Main --> KnowledgeBase
+Main --> KnowledgeBase : getInstance()
 Main --> Monitor
 Main --> Analyzer
 Main --> Planner
@@ -127,6 +184,9 @@ Main --> Executor
 Main --> MapeCycleFacade
 Main --> ContentService
 Main --> WebServer
+
+KnowledgeBase *-- SystemState
+KnowledgeBase *-- AdaptationConfig
 
 WebServer --> ContentController
 WebServer --> KnowledgeBase
@@ -136,6 +196,8 @@ WebServer --> ContentService
 ContentController --> KnowledgeBase
 ContentController --> MapeCycleFacade
 ContentController --> ContentService
+ContentController --> Javalin
+ContentController --> Context
 
 MapeCycleFacade --> KnowledgeBase
 MapeCycleFacade --> Monitor
@@ -159,6 +221,12 @@ ContentPresentationStrategy <|.. MultimediaPresentationStrategy
 ContentPresentationStrategy <|.. RestrictedPresentationStrategy
 ContentPresentationStrategy <|.. TextPresentationStrategy
 
-Content --> PresentationMode
+Content *-- ContentResource : mainImage
+Content *-- ContentResource : mainVideo
+Content o-- ContentResource : images
+Content o-- ContentResource : videos
+
+' El enum se usa transversalmente en Knowledge, Planner y Controller.
+KnowledgeBase --> PresentationMode
 
 @enduml

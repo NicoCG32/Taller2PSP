@@ -121,6 +121,8 @@ public class TextPresentationStrategy implements ContentPresentationStrategy {
                             padding: 12px 14px;
                         }
 
+                        pre.ascii { background:#ffffff; border:1px solid #e5e7eb; padding:12px; border-radius:6px; overflow:auto; font-family:monospace }
+
                         @media (max-width: 680px) {
                             .header {
                                 display: block;
@@ -153,6 +155,11 @@ public class TextPresentationStrategy implements ContentPresentationStrategy {
                                 Las imágenes, videos y enlaces multimedia fueron desactivados temporalmente debido a alta demanda.
                             </div>
 
+                            <h3>Diagrama (ASCII / Markdown-friendly)</h3>
+                            <pre class="ascii">%s
+%s
+%s</pre>
+
                             <ul class="disabled-list" aria-label="Recursos desactivados">
                                 <li>Imagen principal no cargada: %s</li>
                                 <li>Video principal no cargado: %s</li>
@@ -168,11 +175,23 @@ public class TextPresentationStrategy implements ContentPresentationStrategy {
                 content.getTitle(),
                 content.getTitle(),
                 content.getSummary(),
+                // Se añade Ascii art pa hacerlo más bonito
+                "+-----------------+   +----------------+   +----------------+   +----------------+\n" +
+                "|     Monitor     |-->|    Analyzer    |-->|     Planner    |-->|    Executor    |\n" +
+                "+-----------------+   +----------------+   +----------------+   +----------------+",
+                
+                "           ^                                      |\n" +
+                "           |                                      v\n" +
+                "       +-----------------+                   +-----------------+\n" +
+                "       |  Knowledge (K)  |<------------------|   ContentSvc     |\n" +
+                "       +-----------------+                   +-----------------+",
+                
+                "Modes: MULTIMEDIA -> RESTRICTED -> TEXT\nDecision rule (ej.): requests >= textThreshold => TEXT",
                 content.getImageDescription(),
                 content.getVideoDescription(),
                 content.getImages().size(),
                 content.getVideos().size(),
                 content.getResourceLink()
-        );
+            );
     }
 }

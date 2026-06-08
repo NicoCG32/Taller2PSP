@@ -84,6 +84,7 @@ public class RestrictedPresentationStrategy implements ContentPresentationStrate
                             display: grid;
                             grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
                             gap: 18px;
+                            align-items: start;
                             margin-top: 24px;
                         }
 
@@ -123,6 +124,14 @@ public class RestrictedPresentationStrategy implements ContentPresentationStrate
                             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
                             gap: 10px;
                             margin-top: 14px;
+                        }
+
+                        .generic-images {
+                            margin-top: 18px;
+                        }
+
+                        .generic-images .image-list {
+                            margin-top: 12px;
                         }
 
                         .image-list article {
@@ -199,14 +208,18 @@ public class RestrictedPresentationStrategy implements ContentPresentationStrate
                                 <div class="image-frame">
                                     <img src="%s" alt="%s">
                                 </div>
-                                <div class="image-list">
-                                    %s
-                                </div>
                                 <div class="disabled-resource">
                                     <strong>Video desactivado temporalmente</strong>
                                     <span>%s y %d videos complementarios no se cargan en este modo para reducir consumo de recursos.</span>
                                 </div>
                             </aside>
+                        </section>
+
+                        <section class="panel generic-images">
+                            <h2 class="panel-title">Imágenes genéricas</h2>
+                            <div class="image-list">
+                                %s
+                            </div>
                         </section>
                     </main>
                 </body>
@@ -217,9 +230,9 @@ public class RestrictedPresentationStrategy implements ContentPresentationStrate
                 content.getDescription(),
                 content.getImagePath(),
                 content.getImageDescription(),
-                renderImageCards(content),
                 content.getVideoDescription(),
-                content.getVideos().size()
+                content.getVideos().size(),
+                renderImageCards(content)
         );
     }
 

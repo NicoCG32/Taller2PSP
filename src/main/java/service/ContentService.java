@@ -12,7 +12,7 @@ import service.strategy.TextPresentationStrategy;
  * Servicio que obtiene el contenido educativo y lo renderiza segun el modo activo.
  */
 public class ContentService {
-    
+
     private final ContentPresentationStrategy multimediaStrategy;
     private final ContentPresentationStrategy restrictedStrategy;
     private final ContentPresentationStrategy textStrategy;
@@ -45,10 +45,10 @@ public class ContentService {
                 new ContentResource("Imagen principal", "Imagen conceptual del ciclo MAPE-K", "/images/mape-k.svg"),
                 new ContentResource("Video principal", "Video introductorio disponible en el proyecto", "/videos/UceninHacker.mp4"),
                 java.util.List.of(
-                    new ContentResource("Imagen complementaria adicional", "Recurso visual complementario img1.png", "/images/img1.png"),
-                    new ContentResource("Imagen complementaria 1", "Captura del modo multimedia", "/images/screenshots/MULTIMEDIA.png"),
-                    new ContentResource("Imagen complementaria 2", "Captura del modo restringido", "/images/screenshots/RESTRINGIDO.png"),
-                    new ContentResource("Imagen complementaria 3", "Captura del modo texto", "/images/screenshots/TEXT.png")
+                        new ContentResource("Imagen complementaria adicional", "Recurso visual complementario mape-k", "/images/mape-k.svg"),
+                        new ContentResource("Imagen complementaria 1", "Captura del modo multimedia", "/images/img1.png"),
+                        new ContentResource("Imagen complementaria 2", "Captura del modo restringido", "/images/img2.png"),
+                        new ContentResource("Imagen complementaria 3", "Captura del modo texto", "/images/img3.png")
                 ),
                 java.util.List.of(
                         new ContentResource("Video complementario 1", "Recurso audiovisual complementario video1.mp4", "/videos/video1.mp4"),
@@ -58,10 +58,6 @@ public class ContentService {
                 "Material complementario sobre sistemas autoadaptativos"
         );
     }
-
-    /**
-     * Selecciona la estrategia que corresponde al modo de presentacion activo.
-     */
     private ContentPresentationStrategy selectStrategy(PresentationMode mode) {
         return switch (mode) {
             case RESTRICTED -> restrictedStrategy;

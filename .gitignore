@@ -7,9 +7,6 @@
 # Target de IntelliJ IDEA
 /target
 
-# Referencias
-/ref
-
 # Visual Studio Code
 .vscode/
 

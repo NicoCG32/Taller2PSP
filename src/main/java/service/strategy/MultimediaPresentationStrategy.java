@@ -84,6 +84,7 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
                             display: grid;
                             grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
                             gap: 18px;
+                            align-items: start;
                             margin-top: 24px;
                         }
 
@@ -139,6 +140,24 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
                             margin-top: 16px;
                         }
 
+                        .content-images {
+                            display: grid;
+                            grid-template-columns: repeat(3, minmax(0, 1fr));
+                            gap: 12px;
+                            margin-top: 16px;
+                        }
+
+                        .content-images .media-card {
+                            margin: 0;
+                        }
+
+                        .content-images img {
+                            display: block;
+                            width: 100%%;
+                            border-radius: 6px;
+                            background: #f7faf9;
+                        }
+
                         .media-card {
                             border: 1px solid #d8dee6;
                             border-radius: 8px;
@@ -188,6 +207,22 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
                             margin-bottom: 4px;
                         }
 
+                        .video-panel {
+                            display: grid;
+                            gap: 12px;
+                            margin-top: 18px;
+                        }
+
+                        .video-panel .panel-title {
+                            margin-bottom: 0;
+                        }
+
+                        .video-caption {
+                            margin: 0;
+                            color: #52616b;
+                            line-height: 1.55;
+                        }
+
                         @media (max-width: 760px) {
                             .header {
                                 display: block;
@@ -219,23 +254,18 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
                             <article class="panel">
                                 <h2 class="panel-title">Contenido principal</h2>
                                 <p class="text-block">%s</p>
+
+                                <div class="content-images">
+                                    %s
+                                </div>
                             </article>
 
                             <aside class="panel">
-                                <h2 class="panel-title">Material multimedia</h2>
+                                <h2 class="panel-title">Imagen y recurso complementario</h2>
                                 <div class="visual-block">
                                     <img src="%s" alt="%s">
                                 </div>
                                 <div class="resource-list">
-                                    <div class="resource">
-                                        <strong>%s</strong>
-                                        <div class="video-frame">
-                                            <video controls preload="metadata" poster="%s">
-                                                <source src="%s" type="video/mp4">
-                                                Tu navegador no puede reproducir este video.
-                                            </video>
-                                        </div>
-                                    </div>
                                     <div class="resource">
                                         <strong>Recurso complementario</strong>
                                         <span>%s</span>
@@ -244,10 +274,14 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
                             </aside>
                         </section>
 
-                        <section class="panel" style="margin-top:18px;">
-                            <h2 class="panel-title">Imágenes complementarias</h2>
-                            <div class="media-grid">
-                                %s
+                        <section class="panel video-panel">
+                            <h2 class="panel-title">Video principal</h2>
+                            <p class="video-caption">%s</p>
+                            <div class="video-frame">
+                                <video controls preload="metadata" poster="%s">
+                                    <source src="%s" type="video/mp4">
+                                    Tu navegador no puede reproducir este video.
+                                </video>
                             </div>
                         </section>
 
@@ -264,13 +298,13 @@ public class MultimediaPresentationStrategy implements ContentPresentationStrate
                 content.getTitle(),
                 content.getTitle(),
                 content.getDescription(),
+                renderImageCards(content),
                 content.getImagePath(),
                 content.getImageDescription(),
+                content.getResourceLink(),
                 content.getMainVideo().getTitle(),
                 content.getImagePath(),
                 content.getVideoPath(),
-                content.getResourceLink(),
-                renderImageCards(content),
                 renderVideoCards(content)
         );
     }
